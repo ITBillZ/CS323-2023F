@@ -3,12 +3,8 @@
   #define EXIT_FAIL 1
 %}
 %%
-
-\"[^\"]*\" {
-    if (yyleng >= 2 && yytext[yyleng - 2] == '\\' && yytext[yyleng - 1] == '\"') yyless(2);
-    printf("Matched a string literal: %s\n", yytext); 
-
-}
+\"[^\"]*\\\" {unput('\"'); yymore();}
+\"[^\"]*\" { printf("Matched a string literal: %s\n", yytext); }
 \n {}
 . {}
 %%
