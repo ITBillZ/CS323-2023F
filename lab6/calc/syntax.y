@@ -2,7 +2,10 @@
     #include "lex.yy.c"
     void yyerror(const char*);
 %}
-%token INT ADD SUB MUL DIV LP RP
+%token INT
+%left ADD SUB
+%left MUL DIV
+%nonassoc LP RP
 
 %%
 Calc: /* to allow empty input */

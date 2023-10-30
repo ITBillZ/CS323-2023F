@@ -1,0 +1,268 @@
+Grammar
+
+    0 $accept: Calc $end
+
+    1 Calc: ε
+    2     | Exp
+
+    3 Exp: INT
+    4    | LP Exp RP
+    5    | Exp ADD Exp
+    6    | Exp SUB Exp
+    7    | Exp MUL Exp
+    8    | Exp DIV Exp
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    INT (258) 3
+    ADD (259) 5
+    SUB (260) 6
+    MUL (261) 7
+    DIV (262) 8
+    LP (263) 4
+    RP (264) 4
+
+
+Nonterminals, with rules where they appear
+
+    $accept (10)
+        on left: 0
+    Calc (11)
+        on left: 1 2
+        on right: 0
+    Exp (12)
+        on left: 3 4 5 6 7 8
+        on right: 2 4 5 6 7 8
+
+
+State 0
+
+    0 $accept: • Calc $end
+    1 Calc: ε •  [$end]
+    2     | • Exp
+    3 Exp: • INT
+    4    | • LP Exp RP
+    5    | • Exp ADD Exp
+    6    | • Exp SUB Exp
+    7    | • Exp MUL Exp
+    8    | • Exp DIV Exp
+
+    INT  shift, and go to state 1
+    LP   shift, and go to state 2
+
+    $default  reduce using rule 1 (Calc)
+
+    Calc  go to state 3
+    Exp   go to state 4
+
+
+State 1
+
+    3 Exp: INT •
+
+    $default  reduce using rule 3 (Exp)
+
+
+State 2
+
+    3 Exp: • INT
+    4    | • LP Exp RP
+    4    | LP • Exp RP
+    5    | • Exp ADD Exp
+    6    | • Exp SUB Exp
+    7    | • Exp MUL Exp
+    8    | • Exp DIV Exp
+
+    INT  shift, and go to state 1
+    LP   shift, and go to state 2
+
+    Exp  go to state 5
+
+
+State 3
+
+    0 $accept: Calc • $end
+
+    $end  shift, and go to state 6
+
+
+State 4
+
+    2 Calc: Exp •  [$end]
+    5 Exp: Exp • ADD Exp
+    6    | Exp • SUB Exp
+    7    | Exp • MUL Exp
+    8    | Exp • DIV Exp
+
+    ADD  shift, and go to state 7
+    SUB  shift, and go to state 8
+    MUL  shift, and go to state 9
+    DIV  shift, and go to state 10
+
+    $default  reduce using rule 2 (Calc)
+
+
+State 5
+
+    4 Exp: LP Exp • RP
+    5    | Exp • ADD Exp
+    6    | Exp • SUB Exp
+    7    | Exp • MUL Exp
+    8    | Exp • DIV Exp
+
+    ADD  shift, and go to state 7
+    SUB  shift, and go to state 8
+    MUL  shift, and go to state 9
+    DIV  shift, and go to state 10
+    RP   shift, and go to state 11
+
+
+State 6
+
+    0 $accept: Calc $end •
+
+    $default  accept
+
+
+State 7
+
+    3 Exp: • INT
+    4    | • LP Exp RP
+    5    | • Exp ADD Exp
+    5    | Exp ADD • Exp
+    6    | • Exp SUB Exp
+    7    | • Exp MUL Exp
+    8    | • Exp DIV Exp
+
+    INT  shift, and go to state 1
+    LP   shift, and go to state 2
+
+    Exp  go to state 12
+
+
+State 8
+
+    3 Exp: • INT
+    4    | • LP Exp RP
+    5    | • Exp ADD Exp
+    6    | • Exp SUB Exp
+    6    | Exp SUB • Exp
+    7    | • Exp MUL Exp
+    8    | • Exp DIV Exp
+
+    INT  shift, and go to state 1
+    LP   shift, and go to state 2
+
+    Exp  go to state 13
+
+
+State 9
+
+    3 Exp: • INT
+    4    | • LP Exp RP
+    5    | • Exp ADD Exp
+    6    | • Exp SUB Exp
+    7    | • Exp MUL Exp
+    7    | Exp MUL • Exp
+    8    | • Exp DIV Exp
+
+    INT  shift, and go to state 1
+    LP   shift, and go to state 2
+
+    Exp  go to state 14
+
+
+State 10
+
+    3 Exp: • INT
+    4    | • LP Exp RP
+    5    | • Exp ADD Exp
+    6    | • Exp SUB Exp
+    7    | • Exp MUL Exp
+    8    | • Exp DIV Exp
+    8    | Exp DIV • Exp
+
+    INT  shift, and go to state 1
+    LP   shift, and go to state 2
+
+    Exp  go to state 15
+
+
+State 11
+
+    4 Exp: LP Exp RP •
+
+    $default  reduce using rule 4 (Exp)
+
+
+State 12
+
+    5 Exp: Exp • ADD Exp
+    5    | Exp ADD Exp •  [$end, ADD, SUB, RP]
+    6    | Exp • SUB Exp
+    7    | Exp • MUL Exp
+    8    | Exp • DIV Exp
+
+    MUL  shift, and go to state 9
+    DIV  shift, and go to state 10
+
+    $default  reduce using rule 5 (Exp)
+
+    Conflict between rule 5 and token ADD resolved as reduce (%left ADD).
+    Conflict between rule 5 and token SUB resolved as reduce (%left SUB).
+    Conflict between rule 5 and token MUL resolved as shift (ADD < MUL).
+    Conflict between rule 5 and token DIV resolved as shift (ADD < DIV).
+
+
+State 13
+
+    5 Exp: Exp • ADD Exp
+    6    | Exp • SUB Exp
+    6    | Exp SUB Exp •  [$end, ADD, SUB, RP]
+    7    | Exp • MUL Exp
+    8    | Exp • DIV Exp
+
+    MUL  shift, and go to state 9
+    DIV  shift, and go to state 10
+
+    $default  reduce using rule 6 (Exp)
+
+    Conflict between rule 6 and token ADD resolved as reduce (%left ADD).
+    Conflict between rule 6 and token SUB resolved as reduce (%left SUB).
+    Conflict between rule 6 and token MUL resolved as shift (SUB < MUL).
+    Conflict between rule 6 and token DIV resolved as shift (SUB < DIV).
+
+
+State 14
+
+    5 Exp: Exp • ADD Exp
+    6    | Exp • SUB Exp
+    7    | Exp • MUL Exp
+    7    | Exp MUL Exp •  [$end, ADD, SUB, MUL, DIV, RP]
+    8    | Exp • DIV Exp
+
+    $default  reduce using rule 7 (Exp)
+
+    Conflict between rule 7 and token ADD resolved as reduce (ADD < MUL).
+    Conflict between rule 7 and token SUB resolved as reduce (SUB < MUL).
+    Conflict between rule 7 and token MUL resolved as reduce (%left MUL).
+    Conflict between rule 7 and token DIV resolved as reduce (%left DIV).
+
+
+State 15
+
+    5 Exp: Exp • ADD Exp
+    6    | Exp • SUB Exp
+    7    | Exp • MUL Exp
+    8    | Exp • DIV Exp
+    8    | Exp DIV Exp •  [$end, ADD, SUB, MUL, DIV, RP]
+
+    $default  reduce using rule 8 (Exp)
+
+    Conflict between rule 8 and token ADD resolved as reduce (ADD < DIV).
+    Conflict between rule 8 and token SUB resolved as reduce (SUB < DIV).
+    Conflict between rule 8 and token MUL resolved as reduce (%left MUL).
+    Conflict between rule 8 and token DIV resolved as reduce (%left DIV).

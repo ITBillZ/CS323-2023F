@@ -1,3 +1,4 @@
+%option yylineno
 %{
     #include "syntax.tab.h"
     #include "stdlib.h"
@@ -8,5 +9,6 @@
 "-" { return SUB; }
 "*" { return MUL; }
 "/" { return DIV; }
-[ \n\r\t] {}
+[ \r\t] {}
+\n {}
 . { fprintf(stderr, "unknown symbol: %s\n", yytext); exit(1); }

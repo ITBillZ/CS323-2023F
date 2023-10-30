@@ -1,3 +1,4 @@
+%locations
 %{
     #include "lex.yy.c"
     void yyerror(const char*);
@@ -9,7 +10,7 @@ Calc: /* to allow empty input */
     | Exp { printf("= %d\n", $1); }
     ;
 Exp: Factor
-    | Exp ADD Factor { $$ = $1 + $3; }
+    | Exp ADD Factor { $$ = $1 + $3; printf("line %d\n", @3.first_line); }
     | Exp SUB Factor { $$ = $1 - $3; }
     ;
 Factor: Term

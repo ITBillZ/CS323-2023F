@@ -2,7 +2,7 @@ CC=gcc
 FLEX=flex
 BISON=bison
 calc:
-	$(BISON) -d syntax.y
+	$(BISON) -d syntax.y --report all
 	$(FLEX) lex.l
 	$(CC) syntax.tab.c -lfl -ly -o calc.out
 clean:
